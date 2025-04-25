@@ -1,15 +1,41 @@
-cadena="173 etalocohc ed atrat" 
-cadena_invertida = cadena[::-1]
-partes=cadena_invertida.rsplit(" ",1) 
-#Las " " indican que la cadena se recorrerá hasta encontrar un espacio por el lado derecho y el 1 indica que solo se dividirá una vez, por lo que la cadena se dividirá en dos partes
-nombre_de_la_receta, numero = partes
-print(f"La receta de {nombre_de_la_receta} contiene {numero} calorias")
+def procesar_cadena(cadena):
+    try:
+        # Verifica si la cadena está vacía
+        if not cadena:
+            raise ValueError("La cadena está vacía.")  # Lanza un error si la cadena está vacía
 
-#Otra manera:
-cadena="173 etalocohc ed atrat"
-cadena_invertida = cadena[::-1]
-partes=cadena_invertida.split(" ") 
-#Se crea una lista dividida en el mismo nº de elementos que palabras tenga la cadena, es decir, en este caso, 4 elementos
-nombre_de_la_receta = " ".join(partes[:-1])
-numero = partes[-1]
-print(f"La receta de {nombre_de_la_receta} contiene {numero} calorias")
+        # Invierte la cadena
+        cadena_invertida = cadena[::-1]
+
+        # Verifica si la cadena invertida contiene al menos un espacio
+        if " " not in cadena_invertida:
+            raise ValueError("La cadena no contiene el formato esperado con espacios.")  # Lanza un error si no hay espacios
+
+        # Divide la cadena en dos partes desde el último espacio
+        partes = cadena_invertida.rsplit(" ", 1)
+
+        # Verifica si la división produjo exactamente dos partes
+        if len(partes) != 2:
+            raise ValueError("No se pudo separar la receta del número de calorías.")  # Lanza un error si no hay dos partes
+
+        # Asigna las partes a variables
+        nombre_de_la_receta, numero = partes
+
+        # Verifica si la segunda parte es un número válido
+        if not numero.isdigit():
+            raise ValueError(f"El valor '{numero}' no es un número válido de calorías.")  # Lanza un error si no es un número
+
+        # Imprime el resultado si todo está correcto
+        print(f"La receta de {nombre_de_la_receta} contiene {numero} calorías")
+    
+    except ValueError as e:
+        # Captura e imprime cualquier error que ocurra
+        print(f"Error: {e}")
+
+# Ejemplo correcto
+cadena = "173 etalocohc ed atrat"  # Cadena de ejemplo válida
+procesar_cadena(cadena)
+
+# Ejemplo con error
+cadena_mala = "sin calorias"  # Cadena de ejemplo inválida
+procesar_cadena(cadena_mala)
